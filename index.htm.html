@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZUR — Dossier de présentation du Gala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Italiana&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Manrope:wght@300;400;500;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b2545; --navy2:#13335e; --gold:#c9a24b; --gold-soft:#e6d3a3; --ivory:#f6f1e6;
+  --sky:#7fc4e8; --sea:#0e6ba8; --deep:#083d5c; --sun:#f2b53a; --sand:#f8f4ec;
+  --paper:#faf6ee; --ink3:#1e3a5f; --azur3:#4a90c2; --coral:#e8927c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+.waves svg,.boat svg{width:100%;height:100%;display:block}
+body{background:#e9e4d8;font-family:'Jost',sans-serif;color:#232c39;-webkit-font-smoothing:antialiased}
+
+/* ===== Barre d'outils ===== */
+#toolbar{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,37,69,.97);color:#f6f1e6;display:flex;align-items:center;gap:8px;padding:10px 14px;flex-wrap:wrap;box-shadow:0 2px 14px rgba(0,0,0,.25)}
+#toolbar .tt{font-family:'Cormorant Garamond',serif;font-size:18px;letter-spacing:.14em;color:var(--gold-soft);margin-right:auto}
+#toolbar button{border:1px solid rgba(201,162,75,.6);background:transparent;color:#f6f1e6;font-family:'Jost',sans-serif;font-size:13.5px;letter-spacing:.05em;border-radius:6px;padding:8px 14px;cursor:pointer}
+#toolbar button:hover{background:rgba(201,162,75,.18)}
+#toolbar button.primary{background:var(--gold);border-color:var(--gold);color:#0b2545;font-weight:500}
+body.editing #btnEdit{background:#e8927c;border-color:#e8927c;color:#fff}
+#editHint{display:none;position:fixed;top:58px;left:0;right:0;z-index:49;background:#e8927c;color:#fff;text-align:center;font-size:13px;padding:7px 12px;letter-spacing:.04em}
+body.editing #editHint{display:block}
+
+/* ===== Aide ===== */
+#help{display:none;max-width:880px;margin:18px auto 0;background:#fff;border:1px solid #e0d9c8;border-left:5px solid var(--gold);border-radius:10px;padding:20px 24px;font-size:14.5px;line-height:1.7;color:#3a4250}
+#help.open{display:block}
+#help h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--navy);margin-bottom:8px}
+#help ol{margin:6px 0 6px 20px}
+#help li{margin-bottom:5px}
+
+/* ===== Pages ===== */
+main{padding:84px 12px 60px;max-width:920px;margin:0 auto}
+.page{border-radius:12px;overflow:hidden;margin-bottom:26px;box-shadow:0 8px 28px rgba(20,30,50,.12);position:relative;background:#fff}
+body.editing .page{outline:2px dashed rgba(232,146,124,.65);outline-offset:3px}
+.page [contenteditable="true"]:focus{outline:2px solid var(--coral);outline-offset:2px;border-radius:3px}
+.kicker{font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);font-weight:400}
+.pagenum{position:absolute;top:16px;right:20px;font-size:10px;letter-spacing:.2em;color:rgba(140,132,115,.75)}
+
+/* D1 ivoire */
+.ivory{background:var(--ivory);padding:clamp(26px,5vw,52px)}
+.ivory h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(25px,4.4vw,36px);color:var(--navy);margin:8px 0 4px;line-height:1.15}
+.ivory .rule{width:64px;height:2px;background:var(--gold);margin:12px 0 22px}
+.ivory p{font-weight:300;font-size:clamp(14.5px,1.9vw,16px);line-height:1.8;color:#3a4250;margin-bottom:13px}
+.lead{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(18px,2.6vw,22px);color:var(--navy);line-height:1.55;margin-bottom:16px}
+
+/* D1 marine */
+.navypg{background:linear-gradient(160deg,#0a1f3c 0%,var(--navy) 55%,#10305a 100%);padding:clamp(26px,5vw,52px);color:var(--ivory)}
+.navypg h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(25px,4.4vw,36px);color:#fdfaf2;margin:8px 0 4px}
+.navypg .kicker{color:var(--gold-soft)}
+.navypg .rule{width:64px;height:2px;background:var(--gold);margin:12px 0 24px}
+.navypg p{font-weight:300;font-size:clamp(14.5px,1.9vw,16px);line-height:1.8;color:rgba(246,241,230,.9);margin-bottom:13px}
+.navypg .pagenum{color:rgba(246,241,230,.45)}
+
+/* Couverture */
+.cover{background:linear-gradient(180deg,#02081a 0%,#04102a 30%,#0b2545 58%,#154070 84%,#1c4f7d 100%);color:var(--ivory);text-align:center;padding:clamp(38px,7vw,70px) 20px clamp(34px,6vw,58px)}
+.cover .pre{font-size:clamp(10px,1.6vw,13px);letter-spacing:.5em;text-transform:uppercase;color:var(--gold-soft);font-weight:300}
+.cover img{width:clamp(220px,46vw,360px);margin:clamp(14px,3vw,28px) auto;display:block}
+.cover .hl{width:min(46%,300px);height:1px;margin:0 auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.cover .theme{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.8vw,23px);color:var(--gold-soft);margin:18px auto 10px;max-width:560px}
+.cover .edition{font-size:clamp(9px,1.4vw,11px);letter-spacing:.42em;text-transform:uppercase;color:rgba(246,241,230,.55);font-weight:300;margin-bottom:clamp(22px,5vw,46px)}
+.cover .foot{font-size:clamp(10px,1.6vw,13px);letter-spacing:.3em;text-transform:uppercase;color:rgba(246,241,230,.82);font-weight:300;line-height:2.1}
+
+/* Sommaire */
+.toc-item{display:flex;align-items:baseline;margin-bottom:13px;gap:10px}
+.toc-num{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);min-width:30px}
+.toc-name{font-size:clamp(12.5px,1.8vw,14.5px);letter-spacing:.12em;text-transform:uppercase;color:var(--navy)}
+.toc-dots{flex:1;border-bottom:2px dotted #c9bfa8;transform:translateY(-4px)}
+.toc-sec{font-family:'Cormorant Garamond',serif;font-size:15px;color:#8a8477}
+a.toclink{text-decoration:none;display:block}
+
+/* Valeurs */
+.vrow{display:flex;margin-bottom:24px;gap:18px}
+.vletter{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(38px,6vw,52px);line-height:.9;color:var(--gold);min-width:44px}
+.vtxt b{display:block;font-weight:400;font-size:clamp(13px,1.8vw,15px);letter-spacing:.28em;text-transform:uppercase;color:#fdfaf2;margin-bottom:6px}
+.vtxt p{margin-bottom:0!important}
+
+/* Vision blocs */
+.vm{border-left:3px solid var(--gold);padding-left:18px;margin-bottom:22px}
+.vm h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(17px,2.4vw,20px);color:var(--navy);margin-bottom:5px}
+.vm p{margin-bottom:0}
+.eng{display:flex;flex-wrap:wrap}
+.eng .e{width:50%;padding:0 16px 13px 0;display:flex;gap:9px}
+.eng .e .d{color:var(--gold);font-size:13px;line-height:1.9}
+.eng .e p{font-size:clamp(13px,1.7vw,14.5px);line-height:1.65;margin-bottom:0}
+@media(max-width:620px){.eng .e{width:100%}}
+
+/* D3 papier */
+.paper{background:var(--paper);padding:clamp(26px,5vw,52px);color:#33465e}
+.paper .kicker{color:var(--coral);font-weight:500}
+.paper h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(22px,3.8vw,30px);color:var(--ink3);margin:8px 0 20px;line-height:1.25}
+.paper p{font-family:'Manrope',sans-serif;font-size:clamp(14px,1.8vw,15.5px);line-height:1.85;margin-bottom:13px}
+.pull{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(17px,2.6vw,22px);color:var(--azur3);line-height:1.5;border-left:4px solid var(--gold);padding-left:18px;margin:20px 0}
+.paper .waves{display:block;width:100%;height:64px;margin-top:24px}
+.paper .boat{width:clamp(90px,16vw,130px);display:block;margin:6px auto 0}
+
+/* D2 azur */
+.azur .band{background:linear-gradient(90deg,var(--deep),var(--sea));color:#fff;padding:clamp(22px,4vw,38px) clamp(26px,5vw,52px)}
+.azur .band .kicker{color:var(--sun);font-weight:500}
+.azur .band h2{font-family:'Italiana',serif;font-weight:400;font-size:clamp(26px,4.6vw,38px);margin-top:6px;letter-spacing:.03em}
+.azur .body{padding:clamp(24px,4.5vw,44px) clamp(26px,5vw,52px);background:#fff}
+.azur .body>p, .azur .col p, .acte-card p{font-family:'Manrope',sans-serif;font-size:clamp(13.5px,1.8vw,15px);line-height:1.8;color:#33465e;margin-bottom:13px}
+.acte-label{font-family:'Manrope',sans-serif;font-weight:700;font-size:clamp(11px,1.6vw,13px);letter-spacing:.28em;text-transform:uppercase;color:var(--sea);margin:4px 0 18px}
+.acte-card{border:1px solid #d7e6f0;border-top:4px solid var(--sea);border-radius:10px;padding:clamp(18px,3vw,26px);margin-bottom:20px;background:#fbfdfe}
+.acte-card.goldtop{border-top-color:var(--sun)}
+.acte-card h3{font-family:'Italiana',serif;font-size:clamp(20px,3vw,25px);color:var(--deep);margin-bottom:3px}
+.acte-card .lieu{font-family:'Manrope',sans-serif;font-weight:700;font-size:clamp(10px,1.5vw,12px);letter-spacing:.22em;text-transform:uppercase;color:var(--sea);margin-bottom:12px}
+
+/* timeline */
+.tl{position:relative;padding-left:36px}
+.tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--sky),var(--sea))}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item::before{content:"";position:absolute;left:-33px;top:4px;width:10px;height:10px;border-radius:50%;background:#fff;border:2.5px solid var(--sea)}
+.tl-item.goldpt::before{background:var(--sun);border-color:var(--sun)}
+.tl-time{font-family:'Manrope',sans-serif;font-weight:700;font-size:clamp(13.5px,1.8vw,15px);color:var(--sea)}
+.tl-what{font-family:'Manrope',sans-serif;font-weight:600;font-size:clamp(14px,1.9vw,15.5px);color:#173a52;margin-top:2px}
+.tl-det{font-family:'Manrope',sans-serif;font-size:clamp(12.5px,1.7vw,14px);color:#5c7284;line-height:1.65;margin-top:3px}
+
+/* colonnes invités */
+.cols2{display:flex;gap:0}
+.cols2 .col{width:50%}
+.cols2 .col:first-child{padding-right:22px}
+.cols2 .col:last-child{padding-left:22px;border-left:1px solid #d7e6f0}
+.col h3{font-family:'Italiana',serif;font-size:clamp(19px,2.8vw,23px);color:var(--deep);margin-bottom:8px}
+.col .chapo{font-family:'Manrope',sans-serif;font-weight:600;font-size:clamp(12.5px,1.7vw,14px);color:var(--sea);margin-bottom:12px;line-height:1.55}
+@media(max-width:680px){.cols2{flex-direction:column}.cols2 .col{width:100%;padding:0!important;border:none!important}.cols2 .col:last-child{margin-top:20px;padding-top:20px!important;border-top:1px solid #d7e6f0!important}}
+
+/* paliers */
+.tier{background:#fff;border:1px solid #e4ddcd;border-left:6px solid var(--sea);border-radius:9px;padding:16px 20px;margin-bottom:15px}
+.tier.t1{border-left-color:var(--sun)}
+.tier .tname{display:flex;justify-content:space-between;align-items:baseline;font-family:'Manrope',sans-serif;font-weight:700;font-size:clamp(15px,2vw,17px);color:var(--deep);gap:10px;flex-wrap:wrap}
+.tier .amt{font-family:'Italiana',serif;font-size:clamp(17px,2.4vw,20px);color:var(--sea)}
+.tier .tdet{font-family:'Manrope',sans-serif;font-size:clamp(12.5px,1.7vw,14px);color:#5c7284;line-height:1.7;margin-top:7px}
+.fiscal{border:1px solid #e0d5bd;border-radius:9px;padding:15px 20px;margin-top:20px;background:#fff}
+.fiscal b{display:block;font-family:'Manrope',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.fiscal p{margin-bottom:0!important;font-size:clamp(12.5px,1.7vw,14px)!important}
+
+/* communication */
+.tempo{margin-bottom:24px}
+.tempo h3{font-family:'Italiana',serif;font-size:clamp(19px,2.8vw,23px);color:var(--deep);margin-bottom:7px}
+.tempo .tag{display:inline-block;font-family:'Manrope',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#fff;background:var(--sea);border-radius:5px;padding:4px 10px;margin-bottom:9px}
+.tempo.avant .tag{background:var(--sky);color:var(--deep)}
+.tempo.apres .tag{background:var(--deep)}
+
+/* budget */
+table.bud{width:100%;border-collapse:collapse;margin-bottom:24px}
+table.bud th{font-size:clamp(10px,1.5vw,12px);letter-spacing:.22em;text-transform:uppercase;color:#9a927f;text-align:left;padding:9px 10px;border-bottom:2px solid var(--gold);font-weight:400}
+table.bud th:last-child{text-align:right}
+table.bud td{font-weight:300;font-size:clamp(13px,1.8vw,15px);color:#3a4250;padding:10px;border-bottom:1px solid #e0d9c8}
+table.bud td:last-child{text-align:right;font-family:'Cormorant Garamond',serif;font-size:clamp(14px,2vw,16px);color:var(--navy);white-space:nowrap}
+table.bud tr.total td{font-weight:400;color:var(--navy);border-bottom:none;border-top:2px solid var(--gold)}
+table.bud tr.total td:last-child{font-weight:600}
+
+/* conclusion */
+.concl{background:var(--paper);text-align:center;padding:clamp(30px,5vw,54px) clamp(24px,5vw,52px) 0}
+.concl .big{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,4.4vw,34px);color:var(--ink3);margin:14px 0 20px;line-height:1.3}
+.concl .boat{width:clamp(100px,17vw,140px);margin:0 auto 20px;display:block}
+.concl .txt{max-width:640px;margin:0 auto;text-align:left}
+.concl .txt p{font-family:'Manrope',sans-serif;font-size:clamp(14px,1.8vw,15.5px);line-height:1.85;color:#33465e;margin-bottom:13px}
+.concl .fin{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(17px,2.6vw,22px);color:var(--azur3);margin:18px 0 8px}
+.concl .waves{display:block;width:100%;height:70px;margin-top:8px}
+
+/* dos */
+.back{background:linear-gradient(180deg,#02081a,#0b2545 70%,#123a63);color:var(--ivory);text-align:center;padding:clamp(38px,7vw,66px) 20px}
+.back img{width:clamp(180px,34vw,250px);display:block;margin:0 auto 16px}
+.back .hl{width:min(60%,340px);height:1px;margin:18px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.contact-line{font-weight:300;font-size:clamp(13px,1.9vw,15px);letter-spacing:.1em;line-height:2.4;color:rgba(246,241,230,.88)}
+.contact-line b{font-weight:400;color:var(--gold-soft);letter-spacing:.24em;text-transform:uppercase;font-size:clamp(10.5px,1.5vw,12px)}
+.back .annexe{margin-top:24px;font-weight:300;font-size:clamp(9.5px,1.4vw,11px);letter-spacing:.2em;text-transform:uppercase;color:rgba(246,241,230,.45)}
+
+/* impression */
+@media print{
+  #toolbar,#editHint,#help{display:none!important}
+  body{background:#fff}
+  main{padding:0;max-width:none}
+  .page{box-shadow:none;border-radius:0;margin:0;page-break-after:always}
+  body.editing .page{outline:none}
+}
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <span class="tt">AZUR · Dossier</span>
+  <button id="btnEdit" onclick="toggleEdit()">✏️ Modifier</button>
+  <button class="primary" onclick="saveFile()">💾 Enregistrer</button>
+  <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+  <button onclick="document.getElementById('help').classList.toggle('open')">❓ Aide</button>
+</div>
+<div id="editHint">Mode modification activé — cliquez sur un texte pour le changer, puis « ✏️ Terminer » et « 💾 Enregistrer ».</div>
+
+<main>
+
+<div id="help">
+  <h3>Comment utiliser ce dossier</h3>
+  <ol>
+    <li><b>✏️ Modifier</b> : active le mode modification. Cliquez ensuite directement sur n'importe quel texte (titres, paragraphes, montants…) et tapez votre nouveau texte, comme dans Word. Cliquez à nouveau sur le bouton (« Terminer ») quand vous avez fini.</li>
+    <li><b>💾 Enregistrer</b> : télécharge une nouvelle copie du fichier avec toutes vos modifications. C'est cette nouvelle copie qu'il faudra rouvrir et partager (l'ancien fichier reste inchangé).</li>
+    <li><b>🖨️ Imprimer / PDF</b> : ouvre l'impression du navigateur. Choisissez « Enregistrer au format PDF » comme imprimante pour obtenir une version PDF à envoyer aux partenaires.</li>
+    <li>Sur <b>téléphone</b>, la lecture fonctionne parfaitement ; pour les modifications, un ordinateur est plus confortable.</li>
+  </ol>
+  <p style="margin-top:8px">Les zones entre crochets — comme <b>[&nbsp;montant&nbsp;]</b> ou <b>[&nbsp;adresse e-mail&nbsp;]</b> — sont à compléter.</p>
+</div>
+
+<!-- 1 · COUVERTURE -->
+<section class="page cover ed" id="s1">
+  <div class="pre">Gala caritatif · Première édition</div>
+  <img src="data:image/png;base64,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" alt="Logo AZUR">
+  <div class="hl"></div>
+  <div class="theme">« Chaque enfant mérite de retrouver son horizon. »</div>
+  <div class="edition">Dossier de présentation</div>
+  <div class="foot">Îlet du Gosier · Mémorial ACTe<br>Guadeloupe — 2026</div>
+</section>
+
+<!-- 2 · SOMMAIRE -->
+<section class="page ivory" id="s2">
+  <span class="pagenum">2</span>
+  <div class="kicker">Dossier de présentation</div>
+  <h2>Sommaire</h2>
+  <div class="rule"></div>
+  <nav>
+    <a class="toclink" href="#s3"><div class="toc-item"><span class="toc-num">01</span><span class="toc-name">Mot de la fondatrice</span><span class="toc-dots"></span><span class="toc-sec">3</span></div></a>
+    <a class="toclink" href="#s4"><div class="toc-item"><span class="toc-num">02</span><span class="toc-name">Qui sommes-nous ?</span><span class="toc-dots"></span><span class="toc-sec">4</span></div></a>
+    <a class="toclink" href="#s5"><div class="toc-item"><span class="toc-num">03</span><span class="toc-name">Vision, mission &amp; engagements</span><span class="toc-dots"></span><span class="toc-sec">5</span></div></a>
+    <a class="toclink" href="#s6"><div class="toc-item"><span class="toc-num">04</span><span class="toc-name">Notre cause</span><span class="toc-dots"></span><span class="toc-sec">6</span></div></a>
+    <a class="toclink" href="#s7"><div class="toc-item"><span class="toc-num">05</span><span class="toc-name">Le concept AZUR</span><span class="toc-dots"></span><span class="toc-sec">7</span></div></a>
+    <a class="toclink" href="#s8"><div class="toc-item"><span class="toc-num">06</span><span class="toc-name">Déroulé — Acte I</span><span class="toc-dots"></span><span class="toc-sec">8</span></div></a>
+    <a class="toclink" href="#s9"><div class="toc-item"><span class="toc-num">07</span><span class="toc-name">Déroulé — Acte II</span><span class="toc-dots"></span><span class="toc-sec">9</span></div></a>
+    <a class="toclink" href="#s10"><div class="toc-item"><span class="toc-num">08</span><span class="toc-name">Les invités</span><span class="toc-dots"></span><span class="toc-sec">10</span></div></a>
+    <a class="toclink" href="#s11"><div class="toc-item"><span class="toc-num">09</span><span class="toc-name">Devenir partenaire</span><span class="toc-dots"></span><span class="toc-sec">11</span></div></a>
+    <a class="toclink" href="#s12"><div class="toc-item"><span class="toc-num">10</span><span class="toc-name">Les offres de partenariat</span><span class="toc-dots"></span><span class="toc-sec">12</span></div></a>
+    <a class="toclink" href="#s13"><div class="toc-item"><span class="toc-num">11</span><span class="toc-name">Communication &amp; rayonnement</span><span class="toc-dots"></span><span class="toc-sec">13</span></div></a>
+    <a class="toclink" href="#s14"><div class="toc-item"><span class="toc-num">12</span><span class="toc-name">Budget prévisionnel</span><span class="toc-dots"></span><span class="toc-sec">14</span></div></a>
+    <a class="toclink" href="#s15"><div class="toc-item"><span class="toc-num">13</span><span class="toc-name">Gouvernance &amp; ressources</span><span class="toc-dots"></span><span class="toc-sec">15</span></div></a>
+    <a class="toclink" href="#s16"><div class="toc-item"><span class="toc-num">14</span><span class="toc-name">Vision à long terme</span><span class="toc-dots"></span><span class="toc-sec">16</span></div></a>
+    <a class="toclink" href="#s17"><div class="toc-item"><span class="toc-num">15</span><span class="toc-name">Conclusion</span><span class="toc-dots"></span><span class="toc-sec">17</span></div></a>
+    <a class="toclink" href="#s18"><div class="toc-item"><span class="toc-num">16</span><span class="toc-name">Contacts</span><span class="toc-dots"></span><span class="toc-sec">18</span></div></a>
+  </nav>
+</section>
+
+<!-- 3 · MOT DE LA FONDATRICE -->
+<section class="page ivory ed" id="s3">
+  <span class="pagenum">3</span>
+  <div class="kicker">01 · Éditorial</div>
+  <h2>Mot de la fondatrice</h2>
+  <div class="rule"></div>
+  <p class="lead">« Chaque grand projet naît d'un rêve. Le mien est simple : contribuer à améliorer le quotidien des enfants hospitalisés en Guadeloupe. »</p>
+  <p>Cette conviction trouve son origine dans mon histoire personnelle. Dès mon plus jeune âge, la santé a occupé une place importante dans ma vie. Cette expérience m'a appris combien l'accompagnement, l'écoute et l'espoir peuvent faire la différence dans le parcours d'un patient.</p>
+  <p>Aujourd'hui, en tant qu'étudiante en médecine, cette volonté s'est renforcée. J'ai découvert une réalité qui nous concerne tous : malgré l'engagement remarquable des équipes soignantes, les moyens consacrés au bien-être des enfants hospitalisés restent parfois insuffisants.</p>
+  <p>Face à ce constat, nous avons le pouvoir d'agir. C'est ainsi qu'est né <b>AZUR</b>.</p>
+  <p>Bien plus qu'un gala, AZUR est un rendez-vous où l'élégance rencontre la solidarité. Une soirée qui met à l'honneur la culture guadeloupéenne, la musique, la danse, la création, notre patrimoine et, surtout, notre capacité à nous rassembler autour d'une même cause.</p>
+  <p>À travers chaque édition, notre ambition est simple : transformer la générosité de chacun en actions concrètes pour offrir un meilleur quotidien aux enfants hospitalisés.</p>
+  <p>Ce projet ne pourrait exister sans l'engagement de notre comité, de nos partenaires, de nos mécènes, de nos bénévoles et de toutes les personnes qui choisissent de croire en cette vision.</p>
+  <p>Ensemble, tournons notre regard vers cet horizon azur et construisons un avenir où chaque enfant peut continuer à rêver.</p>
+  <div style="margin-top:26px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2.8vw,23px);color:#0b2545">Aïda Romana</div>
+    <div style="font-weight:300;font-size:clamp(10.5px,1.5vw,12px);letter-spacing:.22em;text-transform:uppercase;color:#8a8477;margin-top:5px">Fondatrice &amp; Présidente d'AZUR</div>
+  </div>
+</section>
+
+<!-- 4 · QUI SOMMES-NOUS -->
+<section class="page navypg ed" id="s4">
+  <span class="pagenum">4</span>
+  <div class="kicker">02 · Présentation</div>
+  <h2>Qui sommes-nous&nbsp;?</h2>
+  <div class="rule"></div>
+  <p>AZUR est une association caritative guadeloupéenne qui mobilise le monde économique, culturel et artistique afin de collecter des fonds au profit des enfants hospitalisés.</p>
+  <p style="margin-bottom:30px">Chaque année, l'association organise un gala de prestige réunissant partenaires, personnalités, institutions et mécènes autour d'une même ambition&nbsp;: transformer la générosité en actions concrètes.</p>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2.8vw,24px);color:#e6d3a3;margin-bottom:22px">Nos quatre valeurs fondatrices</div>
+  <div class="vrow"><div class="vletter">A</div><div class="vtxt"><b>Altruisme</b><p>Le bien-être des enfants est au cœur de chacune des actions que nous menons.</p></div></div>
+  <div class="vrow"><div class="vletter">Z</div><div class="vtxt"><b>Zèle</b><p>Nous menons chaque projet avec exigence et détermination.</p></div></div>
+  <div class="vrow"><div class="vletter">U</div><div class="vtxt"><b>Unité</b><p>Nous croyons que les plus grandes actions naissent lorsque chacun avance dans une même direction. Ensemble, nous sommes plus forts.</p></div></div>
+  <div class="vrow"><div class="vletter">R</div><div class="vtxt"><b>Rayonnement</b><p>Nous souhaitons faire rayonner la Guadeloupe, sa culture, son excellence et sa solidarité bien au-delà de ses frontières, au service des enfants hospitalisés.</p></div></div>
+</section>
+
+<!-- 5 · VISION MISSION -->
+<section class="page ivory ed" id="s5">
+  <span class="pagenum">5</span>
+  <div class="kicker">03 · Notre cap</div>
+  <h2>Vision, mission &amp; engagements</h2>
+  <div class="rule"></div>
+  <div class="vm"><h3>Notre vision</h3><p>Faire d'AZUR le rendez-vous philanthropique de référence dans la Caraïbe, où l'élégance, la culture et la solidarité se rencontrent chaque année au service des enfants.</p></div>
+  <div class="vm"><h3>Notre mission</h3><p>Collecter des fonds pour améliorer le quotidien des enfants hospitalisés en Guadeloupe à travers un gala annuel de prestige.</p></div>
+  <div class="vm"><h3>Notre idée directrice</h3><p>Préserver l'excellence et l'élégance qui font l'identité d'AZUR.</p></div>
+  <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(17px,2.4vw,20px);color:#0b2545;margin:26px 0 16px">Nos engagements</div>
+  <div class="eng">
+    <div class="e"><span class="d">◆</span><p>Financer des projets concrets au bénéfice direct des jeunes patients.</p></div>
+    <div class="e"><span class="d">◆</span><p>Garantir une gestion transparente des fonds collectés.</p></div>
+    <div class="e"><span class="d">◆</span><p>Publier un bilan moral et financier après chaque édition.</p></div>
+    <div class="e"><span class="d">◆</span><p>Collaborer étroitement avec les établissements de santé.</p></div>
+    <div class="e"><span class="d">◆</span><p>Organiser un événement responsable et respectueux de son environnement.</p></div>
+    <div class="e"><span class="d">◆</span><p>Valoriser l'engagement de nos partenaires grâce à une visibilité adaptée.</p></div>
+  </div>
+</section>
+
+<!-- 6 · NOTRE CAUSE -->
+<section class="page paper ed" id="s6" style="padding-bottom:0">
+  <span class="pagenum">6</span>
+  <div class="kicker">04 · Notre cause</div>
+  <h2>Aucun enfant ne devrait voir son quotidien limité par la maladie</h2>
+  <p>Au-delà des soins médicaux, chaque enfant mérite de grandir dans un environnement bienveillant, stimulant et adapté à son âge. Parce que le sourire d'un enfant, un espace de jeu, une activité ou un moment de partage peuvent aussi contribuer à son bien-être, nous avons choisi de faire de cette cause notre engagement.</p>
+  <p>Notre ambition est de rassembler entreprises, institutions, artistes, mécènes et citoyens autour d'une même mission&nbsp;: <b>agir concrètement pour améliorer la qualité de vie des enfants hospitalisés en Guadeloupe.</b></p>
+  <p>À travers son gala annuel, AZUR transforme la générosité en actions concrètes. Les fonds collectés soutiennent des projets ayant un impact direct sur le quotidien des jeunes patients et de leurs familles. Pour nous, la solidarité ne doit pas être ponctuelle&nbsp;: elle doit devenir un engagement durable.</p>
+  <div class="pull">« Derrière chaque enfant hospitalisé se cache une histoire, une famille, des rêves et un avenir. »</div>
+  <p style="font-family:'Fraunces',serif;font-weight:600;color:#1e3a5f">Chaque enfant mérite de retrouver son horizon.</p>
+  <span class="boat"><svg viewBox="0 0 100 62" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 42 L90 42 L74 57 L26 57 Z" fill="#ffffff" stroke="#1e3a5f" stroke-width="1.8"/><path d="M50 8 L50 42" stroke="#1e3a5f" stroke-width="1.8"/><path d="M50 11 L27 40 L50 40 Z" fill="#4a90c2" fill-opacity="0.28" stroke="#1e3a5f" stroke-width="1.5"/><path d="M50 8 L75 40 L50 40 Z" fill="#c9a24b" fill-opacity="0.32" stroke="#1e3a5f" stroke-width="1.5"/></svg></span>
+  <span class="waves"><svg viewBox="0 0 400 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 40 Q50 20 100 40 T200 40 T300 40 T400 40 L400 90 L0 90 Z" fill="#4a90c2" fill-opacity="0.9"/><path d="M0 56 Q50 39 100 56 T200 56 T300 56 T400 56 L400 90 L0 90 Z" fill="#1e3a5f" fill-opacity="0.88"/></svg></span>
+</section>
+
+<!-- 7 · CONCEPT -->
+<section class="page azur ed" id="s7">
+  <div class="band"><span class="pagenum" style="color:rgba(255,255,255,.55)">7</span>
+    <div class="kicker">05 · L'expérience</div><h2>Le concept AZUR</h2>
+  </div>
+  <div class="body">
+    <p>AZUR est bien plus qu'un gala de charité&nbsp;: c'est une expérience immersive où chaque moment est pensé pour célébrer la solidarité, l'élégance et la culture guadeloupéenne.</p>
+    <p style="margin-bottom:24px">Inspiré par l'azur, cette ligne d'horizon où la mer rencontre le ciel, le gala symbolise un voyage vers un avenir meilleur pour les enfants hospitalisés. L'événement est construit en <b>deux actes</b>, chacun offrant une expérience unique.</p>
+    <div class="acte-card">
+      <h3>Acte I — Le Pacte AZUR</h3><div class="lieu">Îlet du Gosier</div>
+      <p>Les invités rejoignent l'îlet par bateau, leur arrivée filmée par des drones. À leur débarquement, une performance artistique inaugure la soirée sur le ponton, transformé en véritable scène à ciel ouvert. Les invités sont mis à l'honneur lors d'une montée sur le ponton inspirée des plus grands événements internationaux, sous l'objectif des photographes et des médias.</p>
+      <p>La soirée se poursuit sous une structure aménagée où gastronomie, cocktails, expositions d'art, musique et rencontres créent un moment privilégié d'échanges. Le point culminant&nbsp;: la <b>signature du Pacte AZUR</b>, engagement symbolique par lequel personnalités, partenaires et invités affirment publiquement leur volonté de soutenir durablement la cause des enfants hospitalisés.</p>
+    </div>
+    <div class="acte-card goldtop">
+      <h3>Acte II — La célébration de la générosité</h3><div class="lieu">Mémorial ACTe</div>
+      <p>À la tombée du jour, les invités rejoignent le Mémorial ACTe par bateau et sont accueillis sur un second tapis rouge, rejoints par les invités conviés au dîner de gala.</p>
+      <p>La soirée se poursuit autour d'un dîner gastronomique rythmé par des performances artistiques, des interventions institutionnelles, le discours de la fondatrice et une vente aux enchères solidaire. Elle s'achève par l'annonce officielle des fonds collectés, avant un spectacle de clôture célébrant la solidarité, la culture guadeloupéenne et l'espoir porté par AZUR.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · ACTE I -->
+<section class="page azur ed" id="s8">
+  <div class="band"><span class="pagenum" style="color:rgba(255,255,255,.55)">8</span>
+    <div class="kicker">06 · Déroulé de la soirée</div><h2>Acte I — Le Pacte AZUR</h2>
+  </div>
+  <div class="body">
+    <div class="acte-label">Îlet du Gosier · 16 h 30 — 19 h 30</div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-time">16 h 30</div><div class="tl-what">Accueil des invités</div><div class="tl-det">Les invités sont accueillis au point d'embarquement avant de rejoindre l'Îlet du Gosier par bateau.</div></div>
+      <div class="tl-item"><div class="tl-time">17 h 00</div><div class="tl-what">Traversée vers l'Îlet du Gosier</div><div class="tl-det">Les embarcations prennent le départ. L'arrivée des invités est filmée par des drones afin d'immortaliser ce moment emblématique dans un décor naturel exceptionnel.</div></div>
+      <div class="tl-item"><div class="tl-time">17 h 20</div><div class="tl-what">Arrivée sur le ponton</div><div class="tl-det">Une performance artistique ouvre officiellement la soirée. Les invités parcourent ensuite le ponton dans une montée inspirée des plus grands galas internationaux, sous l'objectif des photographes et des médias.</div></div>
+      <div class="tl-item"><div class="tl-time">17 h 45</div><div class="tl-what">Cocktail &amp; Expérience AZUR</div><div class="tl-det">Cocktail gastronomique · exposition d'œuvres d'art · animations musicales · interviews médias · espaces de rencontres et de networking.</div></div>
+      <div class="tl-item"><div class="tl-time">18 h 45</div><div class="tl-what">Discours de bienvenue</div><div class="tl-det">Discours de la fondatrice et présentation de la mission d'AZUR.</div></div>
+      <div class="tl-item goldpt"><div class="tl-time">19 h 00</div><div class="tl-what">Signature du Pacte AZUR</div><div class="tl-det">Les personnalités, partenaires et invités signent symboliquement le Pacte AZUR, affirmant leur engagement en faveur des enfants hospitalisés.</div></div>
+      <div class="tl-item"><div class="tl-time">19 h 30</div><div class="tl-what">Départ vers le Mémorial ACTe</div><div class="tl-det">Les invités embarquent pour rejoindre le second acte de la soirée.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · ACTE II -->
+<section class="page azur ed" id="s9">
+  <div class="band"><span class="pagenum" style="color:rgba(255,255,255,.55)">9</span>
+    <div class="kicker">07 · Déroulé de la soirée</div><h2>Acte II — La Célébration</h2>
+  </div>
+  <div class="body">
+    <div class="acte-label">Mémorial ACTe · à partir de 20 h 00</div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-time">20 h 00</div><div class="tl-what">Arrivée au Mémorial ACTe</div><div class="tl-det">Les invités du premier acte sont accueillis sur un second tapis rouge, rejoints par les invités conviés au dîner de gala.</div></div>
+      <div class="tl-item"><div class="tl-time">20 h 30</div><div class="tl-what">Ouverture officielle</div><div class="tl-det">Installation des convives et présentation de la soirée.</div></div>
+      <div class="tl-item"><div class="tl-time">20 h 45</div><div class="tl-what">Dîner gastronomique</div><div class="tl-det">Service du dîner ponctué de performances artistiques, de prestations musicales, des interventions du comité d'AZUR et de la présentation des projets soutenus.</div></div>
+      <div class="tl-item goldpt"><div class="tl-time">Temps fort</div><div class="tl-what">Vente aux enchères solidaire</div><div class="tl-det">Les invités participent à une vente aux enchères organisée au profit des enfants hospitalisés.</div></div>
+      <div class="tl-item"><div class="tl-time">En continu</div><div class="tl-what">Dons &amp; boutique solidaire</div><div class="tl-det">Les convives peuvent effectuer des dons et acquérir des objets exclusifs dont les bénéfices sont reversés à l'association.</div></div>
+      <div class="tl-item"><div class="tl-time">Soirée</div><div class="tl-what">Spectacle de clôture</div><div class="tl-det">Une grande performance artistique présentée sur le pont du Mémorial ACTe célèbre la solidarité et la culture guadeloupéenne.</div></div>
+      <div class="tl-item goldpt"><div class="tl-time">Temps fort</div><div class="tl-what">Annonce officielle des fonds collectés</div><div class="tl-det">Présentation du montant récolté au cours de cette première édition, symbole de la mobilisation de tous.</div></div>
+      <div class="tl-item"><div class="tl-time">Clôture</div><div class="tl-what">Remerciements</div><div class="tl-det">Remerciements adressés aux partenaires, invités, artistes et bénévoles ayant contribué au succès d'AZUR.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · INVITÉS -->
+<section class="page azur ed" id="s10">
+  <div class="band"><span class="pagenum" style="color:rgba(255,255,255,.55)">10</span>
+    <div class="kicker">08 · La communauté</div><h2>Les invités</h2>
+  </div>
+  <div class="body">
+    <p>Chaque invitation à AZUR est pensée comme une marque de confiance. Le gala réunit chaque année des femmes et des hommes engagés, issus d'horizons variés, partageant une même ambition&nbsp;: soutenir les enfants hospitalisés et contribuer au rayonnement d'une initiative solidaire d'exception.</p>
+    <p style="margin-bottom:26px">Afin d'offrir une expérience adaptée à chaque participant, AZUR s'articule autour de deux catégories d'invités.</p>
+    <div class="cols2">
+      <div class="col">
+        <h3>Les Ambassadeurs d'AZUR</h3>
+        <div class="chapo">L'expérience complète — dès l'Acte I sur l'Îlet du Gosier.</div>
+        <p>Conviés dès le premier acte, ils vivent l'arrivée en bateau, les performances artistiques, le cocktail, les rencontres, les interviews, les expositions, la signature du Pacte AZUR et la traversée vers le Mémorial ACTe.</p>
+        <p>Cette catégorie réunit les partenaires majeurs, les mécènes, les personnalités publiques, les artistes, les représentants institutionnels et les créateurs de contenu dont la présence contribue au rayonnement d'AZUR.</p>
+        <p>En devenant Ambassadeurs, ces invités s'engagent symboliquement à porter les valeurs de l'association et à soutenir durablement sa mission.</p>
+      </div>
+      <div class="col">
+        <h3>Les Convives du Gala</h3>
+        <div class="chapo">Le dîner de prestige — Acte II au Mémorial ACTe.</div>
+        <p>Ils rejoignent les Ambassadeurs d'AZUR pour vivre une soirée placée sous le signe de la solidarité, de la gastronomie, de la culture et de l'engagement.</p>
+        <p>Cette catégorie rassemble les entreprises partenaires, les institutions, les professionnels de santé, les associations, les mécènes, ainsi que l'ensemble des invités ayant choisi de soutenir la cause en participant au dîner de gala.</p>
+        <p>Ensemble, Ambassadeurs et Convives forment une communauté engagée, réunie autour d'un même objectif&nbsp;: offrir un avenir plus lumineux aux enfants hospitalisés.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · DEVENIR PARTENAIRE -->
+<section class="page azur ed" id="s11">
+  <div class="band"><span class="pagenum" style="color:rgba(255,255,255,.55)">11</span>
+    <div class="kicker">09 · Mécénat</div><h2>Devenir partenaire d'AZUR</h2>
+  </div>
+  <div class="body">
+    <p style="font-family:'Italiana',serif;font-size:clamp(18px,2.8vw,23px);color:#083d5c;margin-bottom:16px">Rejoignez ceux qui dessinent l'horizon.</p>
+    <p>Devenir partenaire d'AZUR, c'est choisir d'aller au-delà du mécénat. C'est prendre part à une aventure humaine où la solidarité rencontre l'excellence, où chaque engagement contribue à offrir un horizon plus lumineux aux enfants hospitalisés.</p>
+    <p>Les partenaires d'AZUR ne sont pas de simples sponsors&nbsp;: ils sont les <b>Bâtisseurs de l'Horizon</b>. Par leur engagement, ils rendent possibles des projets concrets qui améliorent le quotidien des enfants hospitalisés et permettent à AZUR de grandir année après année.</p>
+    <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:clamp(11px,1.6vw,13px);letter-spacing:.26em;text-transform:uppercase;color:#0e6ba8;margin:22px 0 14px">Pourquoi rejoindre AZUR&nbsp;?</div>
+    <div class="eng">
+      <div class="e"><span class="d" style="color:#f2b53a">◆</span><p style="font-family:'Manrope',sans-serif;color:#33465e">Donner du sens à son engagement.</p></div>
+      <div class="e"><span class="d" style="color:#f2b53a">◆</span><p style="font-family:'Manrope',sans-serif;color:#33465e">Inscrire son entreprise dans une démarche philanthropique durable.</p></div>
+      <div class="e"><span class="d" style="color:#f2b53a">◆</span><p style="font-family:'Manrope',sans-serif;color:#33465e">Contribuer au rayonnement de la Guadeloupe.</p></div>
+      <div class="e"><span class="d" style="color:#f2b53a">◆</span><p style="font-family:'Manrope',sans-serif;color:#33465e">Soutenir une cause porteuse d'un impact concret.</p></div>
+      <div class="e"><span class="d" style="color:#f2b53a">◆</span><p style="font-family:'Manrope',sans-serif;color:#33465e">Rejoindre une communauté d'acteurs engagés.</p></div>
+      <div class="e"><span class="d" style="color:#f2b53a">◆</span><p style="font-family:'Manrope',sans-serif;color:#33465e">Associer son image à un événement d'excellence reconnu pour son élégance.</p></div>
+    </div>
+    <p style="margin-top:14px">Chez AZUR, nous croyons que la générosité mérite d'être mise en lumière. C'est pourquoi nous valorisons l'engagement de chacun de nos partenaires avant, pendant et après le gala&nbsp;: présence sur nos supports de communication, nos plateformes numériques, nos relations presse, nos événements et au cœur de l'expérience vécue par les invités.</p>
+    <p>Chaque partenariat est construit sur mesure afin de créer une collaboration durable, fidèle aux valeurs d'AZUR et aux objectifs de nos partenaires.</p>
+  </div>
+</section>
+
+<!-- 12 · OFFRES -->
+<section class="page azur ed" id="s12">
+  <div class="band"><span class="pagenum" style="color:rgba(255,255,255,.55)">12</span>
+    <div class="kicker">10 · Mécénat</div><h2>Les offres de partenariat</h2>
+  </div>
+  <div class="body" style="background:#f8f4ec">
+    <p style="margin-bottom:22px">Trois niveaux d'engagement permettent à chaque partenaire de trouver la formule adaptée à ses ambitions. Les contreparties détaillées sont précisées dans la convention de mécénat.</p>
+    <div class="tier t1">
+      <div class="tname">Mécène Horizon <span class="amt">[ montant ] €</span></div>
+      <div class="tdet">Statut d'Ambassadeur d'AZUR (Actes I &amp; II) · table d'honneur au dîner de gala · logo majeur sur l'ensemble des supports · prise de parole lors de la soirée · contenus médias dédiés · mention lors de la signature du Pacte AZUR.</div>
+    </div>
+    <div class="tier">
+      <div class="tname">Partenaire Grand Large <span class="amt">[ montant ] €</span></div>
+      <div class="tdet">Table de convives au dîner de gala · visibilité presse et réseaux sociaux · interview partenaire · logo sur les supports de communication de l'édition.</div>
+    </div>
+    <div class="tier">
+      <div class="tname">Partenaire Rivage <span class="amt">[ montant ] €</span></div>
+      <div class="tdet">Places au dîner de gala · mention sur les supports de communication · remerciements officiels lors de la clôture de la soirée.</div>
+    </div>
+    <div class="fiscal">
+      <b>Avantage fiscal</b>
+      <p>Le mécénat d'entreprise ouvre droit à une réduction d'impôt égale à 60&nbsp;% du montant du don, dans les conditions prévues par la réglementation en vigueur. Les dons des particuliers ouvrent droit à une réduction d'impôt de 66&nbsp;%.</p>
+    </div>
+    <p style="font-style:italic;font-size:clamp(12px,1.6vw,13.5px);color:#8a8477;margin-top:18px;margin-bottom:0">Montants et contreparties à finaliser par le comité — chaque partenariat peut également prendre la forme d'un mécénat en nature ou en compétences.</p>
+  </div>
+</section>
+
+<!-- 13 · COMMUNICATION -->
+<section class="page azur ed" id="s13">
+  <div class="band"><span class="pagenum" style="color:rgba(255,255,255,.55)">13</span>
+    <div class="kicker">11 · Visibilité</div><h2>Communication &amp; rayonnement</h2>
+  </div>
+  <div class="body">
+    <p style="margin-bottom:24px">La communication d'AZUR ne se limite pas à promouvoir un événement&nbsp;: elle constitue un véritable levier de sensibilisation au profit des enfants hospitalisés et participe pleinement au rayonnement de la Guadeloupe. Pensée comme une expérience immersive, elle fait vivre le gala bien au-delà des personnes présentes.</p>
+    <div class="tempo avant">
+      <span class="tag">Avant le gala</span>
+      <h3>Révéler l'univers AZUR</h3>
+      <p>Les semaines précédant l'événement sont consacrées à révéler progressivement l'univers d'AZUR. Le thème de l'édition est annoncé et décliné à travers une campagne mettant en lumière les partenaires, les artistes, les personnalités invitées et les temps forts de la soirée — pour créer l'attente tout en sensibilisant le public à la cause.</p>
+    </div>
+    <div class="tempo">
+      <span class="tag">Pendant le gala</span>
+      <h3>Chaque instant est pensé pour être partagé</h3>
+      <p>L'arrivée en bateau, la performance d'ouverture, le défilé des invités, la signature du Pacte AZUR, la traversée vers le Mémorial ACTe, le second tapis rouge, les spectacles et les temps forts du dîner sont captés par des photographes, vidéastes, drones et équipes médias. Des contenus exclusifs sont réalisés à bord des embarcations, et les interviews des invités, artistes et partenaires enrichissent cette couverture. Les partenaires bénéficient d'une visibilité intégrée à ces contenus.</p>
+    </div>
+    <div class="tempo apres">
+      <span class="tag">Après le gala</span>
+      <h3>L'histoire se poursuit</h3>
+      <p>Images, vidéos, interviews, moments emblématiques et résultats de la collecte sont diffusés afin de prolonger l'émotion, de remercier les partenaires, de renforcer leur visibilité et de démontrer l'impact concret de leur engagement auprès des enfants hospitalisés.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · BUDGET -->
+<section class="page ivory ed" id="s14">
+  <span class="pagenum">14</span>
+  <div class="kicker">12 · Finances</div>
+  <h2>Budget prévisionnel</h2>
+  <div class="rule"></div>
+  <p style="margin-bottom:22px">Le budget prévisionnel de la première édition est construit selon le principe d'équilibre&nbsp;: les charges d'organisation sont couvertes en priorité par les partenariats, afin de maximiser la part des recettes reversée aux projets soutenus.</p>
+  <table class="bud">
+    <tr><th>Charges prévisionnelles</th><th>Montant estimé</th></tr>
+    <tr><td>Logistique nautique (traversées, ponton, sécurité)</td><td>………… €</td></tr>
+    <tr><td>Réception &amp; gastronomie (cocktail, dîner de gala)</td><td>………… €</td></tr>
+    <tr><td>Scénographie, technique &amp; décoration</td><td>………… €</td></tr>
+    <tr><td>Artistes &amp; performances</td><td>………… €</td></tr>
+    <tr><td>Communication, captation &amp; médias</td><td>………… €</td></tr>
+    <tr><td>Assurances, autorisations &amp; frais administratifs</td><td>………… €</td></tr>
+    <tr class="total"><td>Total des charges</td><td>………… €</td></tr>
+  </table>
+  <table class="bud">
+    <tr><th>Produits prévisionnels</th><th>Montant estimé</th></tr>
+    <tr><td>Partenariats &amp; mécénat d'entreprises</td><td>………… €</td></tr>
+    <tr><td>Vente de tables &amp; de places</td><td>………… €</td></tr>
+    <tr><td>Vente aux enchères caritative</td><td>………… €</td></tr>
+    <tr><td>Dons de particuliers &amp; boutique solidaire</td><td>………… €</td></tr>
+    <tr><td>Contributions institutionnelles</td><td>………… €</td></tr>
+    <tr class="total"><td>Total des produits</td><td>………… €</td></tr>
+  </table>
+  <div style="border-left:3px solid #c9a24b;padding-left:18px">
+    <p style="margin-bottom:0"><b style="font-weight:400;color:#0b2545">Montant reversé aux projets</b> — la différence entre produits et charges est intégralement consacrée aux actions en faveur des enfants hospitalisés. Un bilan financier détaillé sera publié après l'édition.</p>
+  </div>
+</section>
+
+<!-- 15 · GOUVERNANCE -->
+<section class="page ivory ed" id="s15">
+  <span class="pagenum">15</span>
+  <div class="kicker">13 · Confiance</div>
+  <h2>Gouvernance &amp; ressources</h2>
+  <div class="rule"></div>
+  <div class="vm"><h3>Une gouvernance transparente</h3><p>AZUR repose sur une gouvernance fondée sur la transparence, la responsabilité et l'intérêt général. L'association est dirigée par sa fondatrice, entourée d'un comité engagé qui veille à la bonne organisation du gala et au développement de ses actions.</p></div>
+  <p style="margin-bottom:8px">Selon les besoins, ce comité réunit des professionnels issus de différents domaines&nbsp;:</p>
+  <p style="margin-bottom:22px;color:#0b2545"><b style="font-weight:400">Santé · Événementiel · Communication · Finance · Droit · Culture &amp; arts · Mécénat &amp; partenariats</b></p>
+  <div class="vm"><h3>Un modèle de financement diversifié</h3><p>La réussite d'AZUR repose sur un modèle conçu pour assurer la pérennité du projet et maximiser son impact&nbsp;: partenariats et mécénat d'entreprises, dons de particuliers, vente de tables et de places, vente aux enchères caritative, produits dérivés AZUR et contributions d'institutions publiques ou privées.</p></div>
+  <div class="vm"><h3>Notre engagement de redevabilité</h3><p>Chaque décision est prise dans le respect de la mission d'AZUR&nbsp;: améliorer le quotidien des enfants hospitalisés grâce à des projets concrets, durables et transparents. Un bilan moral et financier sera présenté après chaque édition afin d'informer les partenaires, les donateurs et le public des actions menées et des fonds mobilisés.</p></div>
+</section>
+
+<!-- 16 · VISION LONG TERME -->
+<section class="page navypg ed" id="s16">
+  <span class="pagenum">16</span>
+  <div class="kicker">14 · Demain</div>
+  <h2>Vision à long terme</h2>
+  <div class="rule"></div>
+  <p>AZUR a vocation à devenir bien plus qu'un gala annuel. Notre ambition est d'inscrire durablement la solidarité au cœur de la Guadeloupe en faisant d'AZUR un rendez-vous philanthropique incontournable, reconnu pour son excellence, son engagement et son impact auprès des enfants hospitalisés.</p>
+  <p style="margin-bottom:26px">À travers chaque édition, nous souhaitons renforcer notre capacité à financer des projets concrets, développer de nouveaux partenariats et mobiliser une communauté toujours plus engagée.</p>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.6vw,22px);color:#e6d3a3;margin-bottom:18px">À plus long terme, AZUR aspire à&nbsp;:</div>
+  <div class="vrow" style="margin-bottom:14px;gap:14px"><div class="vletter" style="font-size:18px;min-width:22px;line-height:2">◆</div><div class="vtxt"><p>Soutenir un nombre croissant de projets en faveur des enfants hospitalisés.</p></div></div>
+  <div class="vrow" style="margin-bottom:14px;gap:14px"><div class="vletter" style="font-size:18px;min-width:22px;line-height:2">◆</div><div class="vtxt"><p>Fédérer un réseau durable de partenaires, de mécènes et d'ambassadeurs.</p></div></div>
+  <div class="vrow" style="margin-bottom:14px;gap:14px"><div class="vletter" style="font-size:18px;min-width:22px;line-height:2">◆</div><div class="vtxt"><p>Promouvoir la Guadeloupe comme une terre d'engagement, de culture et de générosité.</p></div></div>
+  <div class="vrow" style="margin-bottom:14px;gap:14px"><div class="vletter" style="font-size:18px;min-width:22px;line-height:2">◆</div><div class="vtxt"><p>Inspirer d'autres initiatives solidaires sur le territoire.</p></div></div>
+  <div class="vrow" style="margin-bottom:14px;gap:14px"><div class="vletter" style="font-size:18px;min-width:22px;line-height:2">◆</div><div class="vtxt"><p>Faire d'AZUR une référence dans le domaine des événements caritatifs.</p></div></div>
+  <p style="margin-top:18px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.4vw,20px);color:#e6d3a3">Chaque édition constitue une nouvelle étape vers cette ambition&nbsp;: construire, année après année, un héritage durable au service des générations futures.</p>
+</section>
+
+<!-- 17 · CONCLUSION -->
+<section class="page concl ed" id="s17">
+  <span class="pagenum">17</span>
+  <div class="kicker" style="color:#e8927c;font-weight:500">15 · Conclusion</div>
+  <div class="big">Ensemble, ouvrons<br>un nouvel horizon.</div>
+  <span class="boat"><svg viewBox="0 0 100 62" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 42 L90 42 L74 57 L26 57 Z" fill="#ffffff" stroke="#1e3a5f" stroke-width="1.8"/><path d="M50 8 L50 42" stroke="#1e3a5f" stroke-width="1.8"/><path d="M50 11 L27 40 L50 40 Z" fill="#4a90c2" fill-opacity="0.28" stroke="#1e3a5f" stroke-width="1.5"/><path d="M50 8 L75 40 L50 40 Z" fill="#c9a24b" fill-opacity="0.32" stroke="#1e3a5f" stroke-width="1.5"/></svg></span>
+  <div class="txt">
+    <p>AZUR est né d'une conviction simple&nbsp;: lorsque des femmes et des hommes se rassemblent autour d'une même cause, il est possible de transformer des vies. Au-delà d'un gala, AZUR est une invitation à construire un avenir où la solidarité, l'engagement et l'excellence avancent ensemble au service des enfants hospitalisés.</p>
+    <p>Chaque partenaire, chaque invité, chaque artiste, chaque donateur et chaque bénévole contribue à écrire cette histoire. En rejoignant AZUR, vous participez à la naissance d'un projet ambitieux, porteur d'espoir et profondément ancré dans le cœur de la Guadeloupe.</p>
+    <p>Parce qu'ensemble, nous pouvons offrir bien plus qu'une soirée d'exception&nbsp;: des sourires, des instants de réconfort et un avenir plus lumineux aux enfants qui en ont le plus besoin.</p>
+  </div>
+  <div class="fin">Bienvenue dans l'aventure AZUR.</div>
+  <span class="waves"><svg viewBox="0 0 400 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 40 Q50 20 100 40 T200 40 T300 40 T400 40 L400 90 L0 90 Z" fill="#4a90c2" fill-opacity="0.9"/><path d="M0 56 Q50 39 100 56 T200 56 T300 56 T400 56 L400 90 L0 90 Z" fill="#1e3a5f" fill-opacity="0.88"/></svg></span>
+</section>
+
+<!-- 18 · CONTACTS -->
+<section class="page back ed" id="s18">
+  <img src="data:image/png;base64,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" alt="Logo AZUR">
+  <div class="hl"></div>
+  <div class="contact-line">
+    <b>Contact</b><br>
+    Aïda Romana — Fondatrice &amp; Présidente<br>
+    [ adresse e-mail ] · [ téléphone ]<br>
+    [ réseaux sociaux ] · [ site internet ]
+  </div>
+  <div class="hl"></div>
+  <div class="contact-line" style="font-size:clamp(11px,1.6vw,12.5px);letter-spacing:.26em;text-transform:uppercase;color:rgba(246,241,230,.6)">
+    Association AZUR · Guadeloupe<br>
+    Un horizon d'espoir pour les enfants hospitalisés
+  </div>
+  <div class="annexe">Annexes sur demande&nbsp;: moodboard · croquis · planning · kit logo</div>
+</section>
+
+</main>
+
+<script>
+function toggleEdit(){
+  const on = !document.body.classList.contains('editing');
+  document.body.classList.toggle('editing', on);
+  document.querySelectorAll('.page.ed').forEach(function(s){
+    s.setAttribute('contenteditable', on ? 'true' : 'false');
+  });
+  document.getElementById('btnEdit').textContent = on ? '✏️ Terminer' : '✏️ Modifier';
+}
+function saveFile(){
+  // désactiver temporairement l'édition pour un fichier propre
+  const wasEditing = document.body.classList.contains('editing');
+  if (wasEditing) toggleEdit();
+  document.querySelectorAll('[contenteditable]').forEach(function(el){ el.removeAttribute('contenteditable'); });
+  document.getElementById('help').classList.remove('open');
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'AZUR_Dossier_Gala.html';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  alert('✅ Une copie « AZUR_Dossier_Gala.html » avec vos modifications a été téléchargée.\n\nC\'est ce nouveau fichier qu\'il faut rouvrir et partager.');
+}
+</script>
+</body>
+</html>
