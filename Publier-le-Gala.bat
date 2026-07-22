@@ -8,37 +8,34 @@ echo ========================================================
 echo    PUBLICATION DU DOSSIER GALA (AZUR)
 echo ========================================================
 echo.
-echo  Je regarde ce qui a change...
-echo.
 
+echo  [1/2] Sauvegarde de securite sur GitHub...
 git add -A
-
-REM S'il n'y a rien de nouveau, on s'arrete proprement
 git diff --cached --quiet
-if %errorlevel%==0 (
-    echo  Aucune modification a publier : le site est deja a jour.
-    echo.
-    pause
-    exit /b 0
+if errorlevel 1 (
+    git commit -m "Mise a jour du %date% %time%" >nul
+    git push
+    echo        Sauvegarde effectuee.
+) else (
+    echo        Rien de nouveau a sauvegarder.
 )
 
-echo  Modifications detectees. Enregistrement...
-git commit -m "Mise a jour du %date% %time%" >nul
+echo.
+echo  [2/2] Mise en ligne du site (Vercel)... merci de patienter.
+call npx --yes vercel --prod --yes
 
-echo  Envoi vers GitHub / Vercel...
-git push
-
-if %errorlevel%==0 (
+if errorlevel 1 (
     echo.
     echo  ========================================================
-    echo    C'EST PUBLIE !
-    echo    Le site se met a jour tout seul dans 1 a 2 minutes.
+    echo    PROBLEME lors de la mise en ligne.
+    echo    Notez le message ci-dessus et prevenez Claude.
     echo  ========================================================
 ) else (
     echo.
     echo  ========================================================
-    echo    PROBLEME lors de l'envoi.
-    echo    Notez le message ci-dessus et prevenez Claude.
+    echo    C'EST EN LIGNE !
+    echo    Site : azur-gala.vercel.app
+    echo    Pensez a faire Ctrl+F5 pour voir la nouvelle version.
     echo  ========================================================
 )
 
