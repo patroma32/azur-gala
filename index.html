@@ -184,11 +184,17 @@ table.bud tr.total td:last-child{font-weight:600}
 
 /* impression */
 @media print{
+  @page{size:A4 portrait;margin:0}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   #toolbar,#editHint,#help{display:none!important}
-  body{background:#fff}
-  main{padding:0;max-width:none}
-  .page{box-shadow:none;border-radius:0;margin:0;page-break-after:always}
+  html,body{background:#fff}
+  main{padding:0;max-width:none;margin:0}
+  .page{box-shadow:none;border-radius:0;margin:0;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:avoid;break-after:auto}
   body.editing .page{outline:none}
+  /* eviter les coupures au milieu d'un bloc */
+  .hero-wrap,figure.ph,.acte-card,.tier,.tl-item,.vrow,.vm,.eng .e,table.bud tr,.toc-item,.tempo{break-inside:avoid;page-break-inside:avoid}
+  h2,h3{break-after:avoid;page-break-after:avoid}
 }
 </style>
 </head>
